@@ -1,0 +1,315 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DOKUMENTASI API CAPSTONE PROJECT",
+    "version": "1.0.0",
+    "description": "API Capstone Project"
+  },
+  "security": [],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "localhost"
+    },
+    {
+      "url": "http://34.128.78.237:3000",
+      "description": "development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Artikel",
+      "description": "API Artikel"
+    },
+    {
+      "name": "User",
+      "description": "API User yang telah login"
+    },
+    {
+      "name": "Question",
+      "description": "API Question"
+    },
+    {
+      "name": "Submit To ML",
+      "description": "API Submit To ML"
+    },
+    {
+      "name": "Login",
+      "description": "API Login"
+    },
+    {
+      "name": "Register",
+      "description": "API Register"
+    },
+    {
+      "name": "Logout",
+      "description": "API Logout"
+    }
+  ],
+  "paths": {
+    "/api/v1/artikel": {
+      "get": {
+        "tags": ["Artikel"],
+        "summary": "Get all Artikel",
+        "responses": {
+          "200": {
+            "description": "Successfull Get All Data"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/artikel/{id}": {
+      "get": {
+        "tags": ["Artikel"],
+        "summary": "Get Detail Artikel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "ID ARTIKEL"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull Get Detail Data"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/register": {
+      "post": {
+        "tags": ["Register"],
+        "summary": "Create User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "name": { "type": "string" },
+                  "familyEmail": { "type": "string" },
+                  "password": { "type": "string" },
+                  "confPassword": { "type": "string" }
+                },
+                "required": ["email", "name", "familyEmail", "password", "confPassword"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Error, Validasi data"
+          },
+          "201": {
+            "description": "Successfully Created"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Login User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Error, Validasi data"
+          },
+          "401": {
+            "description": "Account Not Found"
+          },
+          "200": {
+            "description": "Successfully Login"
+          }
+        }
+      }
+    },
+    "/api/v1/submit-quiz": {
+      "post": {
+        "tags": ["Submit To ML"],
+        "summary": "Submit Data ML",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "a1": { "type": "string" },
+                  "a2": { "type": "string" },
+                  "a3": { "type": "string" },
+                  "a4": { "type": "string" },
+                  "a5": { "type": "string" },
+                  "a6": { "type": "string" },
+                  "a7": { "type": "string" },
+                  "a8": { "type": "string" },
+                  "a9": { "type": "string" },
+                  "a10": { "type": "string" }
+                },
+                "required": ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Semua data harus diisi"
+          },
+          "500": {
+            "description": "Server Error"
+          },
+          "201": {
+            "description": "Successfully Submit Quiz"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/submit-image": {
+      "post": {
+        "tags": ["Submit To ML"],
+        "summary": "Submit Data ML",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Token is Requred"
+          },
+          "403": {
+            "description": "This Field is already completed"
+          },
+          "500": {
+            "description": "Server Error"
+          },
+          "201": {
+            "description": "Successfully Submit Image"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+
+    "/api/v1/questions": {
+      "get": {
+        "tags": ["Question"],
+        "summary": "Get all Question",
+        "responses": {
+          "200": {
+            "description": "Successfull Get All Data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get Detail User after Login",
+        "responses": {
+          "200": {
+            "description": "Successfull Get All Data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/logout": {
+      "delete": {
+        "tags": ["Logout"],
+        "summary": "  Logout",
+        "responses": {
+          "200": {
+            "description": "Successfull Logout"
+          },
+          "400": {
+            "description": "Gagal Logout"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
