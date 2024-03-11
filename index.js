@@ -16,6 +16,6 @@ const bodyParser = require('body-parser');
 
   app.listen(port, () => {
     console.log(process.env.PORT);
-    console.log(`Server running on port http://localhost:${port}`);
+    console.log(`Server running on port 0.0.0.0:${port}`);
   });
 })();
